@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions
 
-
 class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
 
@@ -21,12 +20,9 @@ class SignupView(APIView):
                 return Response({'error': 'Email already exists'})
             else:
                 if len(password) < 6:
-                    return Response(
-                        {'error': 'Password must be at least 6 characters'})
+                    return Response({'error': 'Password must be at least 6 characters'})
                 else:
-                    user = User.objects.create_user(email=email,
-                                                    password=password,
-                                                    name=name)
+                    user = User.objects.create_user(email=email, password=password, name=name)
 
                     user.save()
                     return Response({'success': 'User created successfully'})
