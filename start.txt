@@ -1,0 +1,3 @@
+d:
+cd D:/Workspace/react-django-practice-2-realsetestate-/backend/venv/Scripts/
+activate
