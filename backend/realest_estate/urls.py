@@ -29,9 +29,11 @@ urlpatterns = [
          name='token_refresh'),
     path('api/accounts/', include('accounts.urls')),
     path('api/realtors/', include('realtors.urls')),
+    path('api/listings/', include('listings.urls')),
     path('admin/', admin.site.urls),
     path('favicon.ico', RedirectView.as_view(
-            url='/static/favicon/favicon.ico'))
+            url='/static/favicon/favicon.ico')) 
+            # 계속 favicon.ico 에러뜸
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
