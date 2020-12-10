@@ -19,7 +19,7 @@ from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from django.views.generic.base import RedirectView 
+from django.views.generic.base import RedirectView
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(),
@@ -30,10 +30,11 @@ urlpatterns = [
     path('api/accounts/', include('accounts.urls')),
     path('api/realtors/', include('realtors.urls')),
     path('api/listings/', include('listings.urls')),
+    path('api/contacts/', include('contacts.urls')),
     path('admin/', admin.site.urls),
-    path('favicon.ico', RedirectView.as_view(
-            url='/static/favicon/favicon.ico')) 
-            # 계속 favicon.ico 에러뜸
+    path('favicon.ico',
+         RedirectView.as_view(url='/static/favicon/favicon.ico'))
+    # 계속 favicon.ico 에러뜸
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
