@@ -10,8 +10,13 @@ import SignUp from './containers/SignUp'
 import Layout from './hocs/Layout'
 import NotFound from './components/NotFound'
 
+import { Provider } from 'react-redux';
+import store from './store'
+
 import './sass/main.scss';
+
 const App = () =>(
+  <Provider store = {store}>
     <Router>
       <Layout>
         <Switch>
@@ -27,6 +32,7 @@ const App = () =>(
         </Switch>
       </Layout>
     </Router>
+  </Provider>
 );
 
 
