@@ -9,6 +9,5 @@
      });
 
      setTimeout(()=> dispatch({
-         type: REMOVE_ALERT, 
-         payload: id}), timeout);
+         type: REMOVE_ALERT, payload: id }), timeout);
  }

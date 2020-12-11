@@ -1,11 +1,56 @@
-import React from 'react'
+import React, { useState } from 'react'
+import {Link, Redirect} from 'react-router-dom'
+import {Helmet} from 'react-helmet'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types';
+import {login} from '../actions/auth';
+const Login = ({login,isAuthenticated}) => {
+    const [formData, setFormData] = useState({
+        email:'',
+        password:''
+    })
+    const {email, password} = formData;
 
-const login = () => {
+    const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
+
+    const onSubmit = e =>{
+        e.preventDefault();
+        login(email,password);
+    };
+    if (isAuthenticated) //로그인 되면
+        return <Redirect to='/' />
+
     return (
-        <div>
-            
+        <div className="auth">
+            <Helmet>
+                <title>Realest Estate - Login</title>
+                <meta name='description'
+                content='login page' />
+            </Helmet>
+            <h1 className='auth__title'>Sign In</h1>
+            <p className='auth__lead'>Sign into your Account</p>
+            <form className='auth__form' onSubmit={e => onSubmit(e)}>
+                <div className='auth__form__group'>
+                    <input className='auth__form__input' type='email' name='email' value={email} placeholder='Type email...' onChange={e=>onChange(e)} required />
+                </div>
+                <div className='auth__form__group'>
+                    <input 
+                    className='auth__form__input' type='password' name='password' value={password} placeholder='Type password...' onChange={e=>onChange(e)} required minLength='6'
+                    />
+                </div>
+                <button className='auth__form__button'>Login</button>
+            </form>
+            <p className='auth__authtext'>
+                Don't have an account? <Link className='auth__authtext__link' to='/signup'>Sign Up</Link>
+            </p>
         </div>
     )
 }
-
-export default login;
+Login.propTypes={
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
+}
+const mapStateToProps = state=> ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+export default connect(mapStateToProps, {login})(Login);
