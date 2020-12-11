@@ -3,26 +3,26 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework import permissions
 from .models import Listing
-from .serializers import ListingSerializers, ListingDetailSerializers
+from .serializers import ListingSerializer, listingDetailSerializer
 from datetime import datetime, timezone, timedelta
 
 
 class ListingsView(ListAPIView):
     queryset = Listing.objects.order_by('-list_date').filter(is_published=True)
     permission_classes = (permissions.AllowAny, )
-    serializer_class = ListingSerializers
+    serializer_class = ListingSerializer
     lookup_field = 'slug'
 
 
 class ListingView(RetrieveAPIView):
     queryset = Listing.objects.order_by('-list_date').filter(is_published=True)
-    serializer_class = ListingDetailSerializers
+    serializer_class = listingDetailSerializer
     lookup_field = 'slug'
 
 
 class SearchView(APIView):
     permission_classes = (permissions.AllowAny, )
-    serializer_class = ListingSerializers
+    serializer_class = ListingSerializer
 
     def post(self, request, format=None):
         queryset = Listing.objects.order_by('-list_date').filter(
@@ -43,17 +43,18 @@ class SearchView(APIView):
             price = 600000
         elif price == '$800,000+':
             price = 800000
-        elif price == '$1000,000+':
+        elif price == '$1,000,000+':
             price = 1000000
-        elif price == '$1200,000+':
+        elif price == '$1,200,000+':
             price = 1200000
-        elif price == '$1500,000+':
+        elif price == '$1,500,000+':
             price = 1500000
         elif price == 'Any':
             price = -1
 
         if price != -1:
             queryset = queryset.filter(price__gte=price)
+
         bedrooms = data['bedrooms']
         if bedrooms == '0+':
             bedrooms = 0
@@ -84,6 +85,7 @@ class SearchView(APIView):
             bathrooms = 3.0
         elif bathrooms == '4+':
             bathrooms = 4.0
+
         queryset = queryset.filter(bathrooms__gte=bathrooms)
 
         sqft = data['sqft']
@@ -97,6 +99,7 @@ class SearchView(APIView):
             sqft = 2000
         elif sqft == 'Any':
             sqft = 0
+
         if sqft != 0:
             queryset = queryset.filter(sqft__gte=sqft)
 
@@ -180,12 +183,13 @@ class SearchView(APIView):
             if count < has_photos:
                 slug = query.slug
                 queryset = queryset.exclude(slug__iexact=slug)
+
         open_house = data['open_house']
         queryset = queryset.filter(open_house__iexact=open_house)
 
         keywords = data['keywords']
         queryset = queryset.filter(description__icontains=keywords)
 
-        serializer = ListingSerializers(queryset, many=True)
+        serializer = ListingSerializer(queryset, many=True)
 
         return Response(serializer.data)

@@ -4,7 +4,7 @@ import Loader from 'react-loader-spinner'
 import PropTypes from 'prop-types'
 
 const ListingForm = (props) => {
-    const [formData,setForData] = useState({
+    const [formData,setFormData] = useState({
         sale_type:'For Sale',
         price: '$0+',
         bedrooms: '0+',
@@ -13,7 +13,7 @@ const ListingForm = (props) => {
         sqft: '1000+',
         days_listed: '1 or less',
         has_photos : '1+',
-        open_house: false,
+        open_house: 'false',
         keywords:''
     });
 
@@ -21,12 +21,13 @@ const ListingForm = (props) => {
 
     const [loading, setLoading] = useState(false);
 
-    const onChange = e => setForData({...formData, [e.target.name] : e.target.value});
+    const onChange = e => setFormData({...formData, [e.target.name] : e.target.value});
 
     const onSubmit = e =>{
+        console.log('tlqfk')
         e.preventDefault();
         axios.defaults.headers={
-            "Content-Type": 'application/json'
+            'Content-Type': 'application/json'
         };
         setLoading(true);
         axios.post('http://localhost:8000/api/listings/search',{sale_type,price,bedrooms,home_type,bathrooms,sqft,days_listed,has_photos,open_house,keywords})
@@ -39,7 +40,7 @@ const ListingForm = (props) => {
             setLoading(false);
             window.scrollTo(0,0);
         })
-    }
+    };
     return (
         <form className='listingform' onSubmit={e => onSubmit(e)}>
             <div className='row'>
@@ -164,6 +165,6 @@ const ListingForm = (props) => {
 };
 
 ListingForm.propTypes = {
-    setListings:PropTypes.func.isRequired
+    setListings: PropTypes.func.isRequired
 }
-export default ListingForm
+export default ListingForm;
