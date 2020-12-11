@@ -8,7 +8,7 @@ import {
     LOGIN_SUCCESS
 } from './types'
 
-export const login =({email, password}) => async dispatch => {
+export const login =(email, password) => async dispatch => {
     const config={
         headers: {
             'Content-Type': 'application/json'
@@ -48,7 +48,7 @@ export const signup = ({name,email,password,password2}) => async dispatch => {
             type: SIGNUP_SUCCESS,
             payload: res.data
         });
-        dispatch(login({email,password}));
+        dispatch(login(email,password));
     }
     catch( err ){
         dispatch({
