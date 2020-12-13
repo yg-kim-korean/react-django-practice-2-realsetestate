@@ -9,7 +9,7 @@ const Pagination = (props) => {
 
         for ( let i = 0 ; i < props.count; i+= itemsPerPage){
             const page = pageNumber;
-            let style = 'pagenation__number';
+            let style = 'pagination__number';
             let content = null;
 
             if(props.active === page){
